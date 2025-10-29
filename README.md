@@ -1,4 +1,4 @@
-# Text-Classification-using-22-DL & ML-Models
+# Text-Classification-using-22-DL&ML-Models
  An extensive question-answer classification project consisting of dataset fetching, pre-processing, training 22 ML and NN/DL models, and evaluating them. 
 
 
