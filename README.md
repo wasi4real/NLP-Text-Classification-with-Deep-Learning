@@ -1,89 +1,90 @@
-# Question-Answer Text Classification
+# Question-Answer Classification: Architecture and Performance Analysis
 
 ## Overview
 
-This project implements a comprehensive framework for classifying question-answer (QA) pairs into ten distinct categories using both traditional machine learning and modern deep learning architectures. The objective is to evaluate the effectiveness of various text representation techniques—ranging from frequency-based methods to pre-trained contextual embeddings—in the context of automated text categorization.
+This repository contains a comprehensive framework for the classification of question-answer (QA) pairs into ten distinct categories. The project evaluates the efficacy of traditional machine learning (ML) versus deep neural architectures, utilizing diverse feature representation strategies to categorize approximately 280,000 QA entries.
 
-## Dataset
+## Data Preprocessing Pipeline
 
-The project utilizes a dataset comprising approximately 280,000 QA entries. The data is balanced across the following ten classes:
+Input processing follows a deterministic sequence to ensure data integrity and model compatibility:
 
-* Business & Finance
-* Computers & Internet
-* Education & Reference
-* Entertainment & Music
-* Family & Relationships
-* Health
-* Politics & Government
-* Science & Mathematics
-* Society & Culture
-* Sports
-
-## Technical Pipeline
-
-### 1. Data Preprocessing
-
-Textual data undergoes standard NLP cleaning, including lowercasing and punctuation removal, followed by:
-
-* **Tokenization**: Converting text into sequences of integers.
-* 
-**Padding**: Ensuring uniform sequence length (maxlen=100) for neural network input.
+* **Text Normalization**: All QA text is converted to lowercase and stripped of punctuation.
 
 
-* 
-**Label Encoding**: Converting categorical labels into numerical format for model training.
+* **Categorical Encoding**: The ten target classes (e.g., Science & Mathematics, Sports, Health) are transformed into discrete integer labels using `LabelEncoder`.
+
+
+* **Tokenization**: Textual data is converted into integer sequences based on a vocabulary mapping.
+
+
+* **Sequence Padding**: To maintain uniform tensor dimensions for neural input, sequences are padded or truncated to a fixed length of 100 tokens using 'post' padding.
 
 
 
-### 2. Feature Extraction
+## Feature Engineering
 
-Four primary feature representation techniques were compared:
+The project implements and compares four vectorization methods:
 
-* **Frequency-based**: Bag of Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF).
-* **Word Embeddings**: Pre-trained GloVe vectors and custom-trained Skip-gram models.
+* **Bag of Words (BoW)**: Frequency-based count matrix.
+* **TF-IDF**: Statistical weighting for term importance, utilizing unigrams and bigrams with a maximum of 10,000 features.
 
-### 3. Model Architectures
 
-The project evaluates a suite of models including:
+* **GloVe Embeddings**: 100-dimensional pre-trained contextual vectors.
 
-* **Classical ML**: Multinomial Naive Bayes, Logistic Regression, and Random Forest.
-* **Neural Networks**: Deep Neural Networks (DNN), Simple RNNs, Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU).
-* **Advanced Architectures**: Bidirectional LSTM and Bidirectional GRU variants.
 
-## Performance Summary
+* **Skip-gram (Word2Vec)**: Custom embeddings trained specifically on the project corpus.
 
-The models were evaluated based on Accuracy and F1-Score (Macro and Weighted).
 
-| Model Category | Top Performing Architecture | Best Feature Type | Highest Accuracy |
+
+## Model Architectures
+
+### Classical Machine Learning
+
+* **Multinomial Naive Bayes**: A probabilistic baseline for text classification.
+* **Logistic Regression**: Utilized with TF-IDF features to provide a strong linear baseline.
+
+
+* **Random Forest**: An ensemble method used to capture non-linear relationships in frequency-based features.
+
+
+
+### Deep Neural Networks
+
+Neural architectures are constructed using the Sequential API with the following layers:
+
+* **Embedding Layer**: Maps integer sequences to dense vectors (using GloVe, Skip-gram, or custom training).
+
+
+* **Recurrent Layers**: SimpleRNN, Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU) are employed to capture temporal dependencies.
+
+
+* **Bidirectional Wrappers**: Applied to RNN, LSTM, and GRU layers to process information from both the beginning and end of the sequence simultaneously.
+
+
+* **Dense and Dropout**: Fully connected layers with softmax activation for classification, integrated with Dropout layers to prevent overfitting.
+
+
+
+## Results and Analytical Insights
+
+### Performance Comparison
+
+| Model Strategy | Feature Type | Accuracy | Weighted F1-Score |
 | --- | --- | --- | --- |
-| Classical ML | Logistic Regression | TF-IDF | ~61% |
-| Deep Learning | Bidirectional GRU | GloVe Embeddings | **71.32%** |
+| Logistic Regression | TF-IDF | 61.02% | 0.61 |
+| SimpleRNN | Skip-gram | 52.82% | 0.52 |
+| LSTM | GloVe | 60.93% | 0.61 |
+| **Bidirectional GRU** | **GloVe** | **71.32%** | **0.71** |
 
-### Key Findings
+### Key Insights
 
-* 
-**Embedding Superiority**: Pre-trained GloVe embeddings consistently outperformed frequency-based methods in deep learning contexts by capturing semantic relationships.
-
-
-* 
-**Bidirectionality**: Models capable of processing sequences in both forward and backward directions (Bi-LSTM, Bi-GRU) significantly improved classification performance by capturing comprehensive context.
+* **Pre-trained Advantage**: GloVe embeddings consistently outperformed custom Skip-gram and frequency-based models in neural contexts, providing superior semantic density.
 
 
-* 
-**Top Performer**: The Bidirectional GRU utilizing GloVe embeddings achieved the highest overall accuracy of 71.32%.
+* **Bidirectionality**: The transition from unidirectional to bidirectional architectures provided a significant performance boost, as it allows the model to capture the full context of a question regardless of where key keywords are located.
 
 
-
-## Repository Structure
-
-* 
-`CSE440_Project_Final.ipynb`: Complete implementation including EDA, model training, and evaluation.
+* **Baseline Efficiency**: Logistic Regression with TF-IDF remains a viable, low-compute baseline, nearly matching the performance of standard unidirectional LSTMs.
 
 
-* 
-`NLP QA Classification- Project Report.pdf`: Detailed research paper documenting methodology, experimental setup, and results.
-
-
-* 
-`model_results.pkl`: Persisted metrics for all experimental runs.
-
+* **Optimal SOTA**: The Bidirectional GRU with GloVe embeddings is the state-of-the-art configuration for this dataset, achieving the highest accuracy of 71.32%.
