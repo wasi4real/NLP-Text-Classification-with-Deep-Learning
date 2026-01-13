@@ -1,7 +1,107 @@
-# Text-Classification-using-22-DL&ML-Models
- An extensive question-answer classification project consisting of dataset fetching, pre-processing, training 22 ML and NN/DL models, and evaluating them. 
+# Question-Answer Text Classification
+
+## Overview
+
+This project implements a comprehensive framework for classifying question-answer (QA) pairs into ten distinct categories using both traditional machine learning and modern deep learning architectures. The objective is to evaluate the effectiveness of various text representation techniques—ranging from frequency-based methods to pre-trained contextual embeddings—in the context of automated text categorization.
+
+## Dataset
+
+The project utilizes a dataset comprising approximately 280,000 QA entries. The data is balanced across the following ten classes:
+
+* Business & Finance
+* Computers & Internet
+* Education & Reference
+* Entertainment & Music
+* Family & Relationships
+* Health
+* Politics & Government
+* Science & Mathematics
+* Society & Culture
+* Sports
+
+## Technical Pipeline
+
+### 1. Data Preprocessing
+
+Textual data undergoes standard NLP cleaning, including lowercasing and punctuation removal, followed by:
+
+* **Tokenization**: Converting text into sequences of integers.
+* 
+**Padding**: Ensuring uniform sequence length (maxlen=100) for neural network input.
 
 
-This was a self-taught NLP project where I explored different word representation techniques, including Bag of Words (BoW), TF-IDF, GloVe, and Skip-gram, to convert unstructured text data into meaningful numerical features. These features are then used to train and evaluate a suite of models on a large dataset (250,000 rows), ranging from traditional machine learning algorithms like Random Forest, Logistic Regression, and Naive Bayes to more advanced deep learning architectures such as Deep Neural Networks (DNN), Simple RNNs, LSTMs, GRUs, and their bidirectional variants.
+* 
+**Label Encoding**: Converting categorical labels into numerical format for model training.
 
-Click on the report PDF for a comprehensive rundown of the project and the individual model stats.
+
+
+### 2. Feature Extraction
+
+Four primary feature representation techniques were compared:
+
+* **Frequency-based**: Bag of Words (BoW) and Term Frequency-Inverse Document Frequency (TF-IDF).
+* **Word Embeddings**: Pre-trained GloVe vectors and custom-trained Skip-gram models.
+
+### 3. Model Architectures
+
+The project evaluates a suite of models including:
+
+* **Classical ML**: Multinomial Naive Bayes, Logistic Regression, and Random Forest.
+* **Neural Networks**: Deep Neural Networks (DNN), Simple RNNs, Long Short-Term Memory (LSTM), and Gated Recurrent Units (GRU).
+* **Advanced Architectures**: Bidirectional LSTM and Bidirectional GRU variants.
+
+## Performance Summary
+
+The models were evaluated based on Accuracy and F1-Score (Macro and Weighted).
+
+| Model Category | Top Performing Architecture | Best Feature Type | Highest Accuracy |
+| --- | --- | --- | --- |
+| Classical ML | Logistic Regression | TF-IDF | ~61% |
+| Deep Learning | Bidirectional GRU | GloVe Embeddings | **71.32%** |
+
+### Key Findings
+
+* 
+**Embedding Superiority**: Pre-trained GloVe embeddings consistently outperformed frequency-based methods in deep learning contexts by capturing semantic relationships.
+
+
+* 
+**Bidirectionality**: Models capable of processing sequences in both forward and backward directions (Bi-LSTM, Bi-GRU) significantly improved classification performance by capturing comprehensive context.
+
+
+* 
+**Top Performer**: The Bidirectional GRU utilizing GloVe embeddings achieved the highest overall accuracy of 71.32%.
+
+
+
+## Repository Structure
+
+* 
+`CSE440_Project_Final.ipynb`: Complete implementation including EDA, model training, and evaluation.
+
+
+* 
+`NLP QA Classification- Project Report.pdf`: Detailed research paper documenting methodology, experimental setup, and results.
+
+
+* 
+`model_results.pkl`: Persisted metrics for all experimental runs.
+
+
+
+## Installation & Usage
+
+### Dependencies
+
+* Python 3.12+
+* NumPy, Pandas, Scikit-learn
+* TensorFlow/Keras
+* Gensim (for Word2Vec and GloVe)
+* Matplotlib, Seaborn
+
+### Execution
+
+1. Clone the repository.
+2. Install dependencies: `pip install gensim joblib tensorflow pandas scikit-learn`.
+3. Open the Jupyter Notebook to replicate the preprocessing and model training pipeline.
+4. Use the `evaluate_model` function within the notebook to test new model configurations.
