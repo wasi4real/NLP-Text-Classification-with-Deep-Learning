@@ -87,21 +87,3 @@ The models were evaluated based on Accuracy and F1-Score (Macro and Weighted).
 * 
 `model_results.pkl`: Persisted metrics for all experimental runs.
 
-
-
-## Installation & Usage
-
-### Dependencies
-
-* Python 3.12+
-* NumPy, Pandas, Scikit-learn
-* TensorFlow/Keras
-* Gensim (for Word2Vec and GloVe)
-* Matplotlib, Seaborn
-
-### Execution
-
-1. Clone the repository.
-2. Install dependencies: `pip install gensim joblib tensorflow pandas scikit-learn`.
-3. Open the Jupyter Notebook to replicate the preprocessing and model training pipeline.
-4. Use the `evaluate_model` function within the notebook to test new model configurations.
